@@ -138,9 +138,7 @@ module.exports = {
           ? `&features=${features.trimStart().trimEnd()}`
           : "&features=none"
       }${
-        channel.length
-          ? `&channel=${channel.trimStart().trimEnd()}`
-          : "&channel=none"
+        channel ? `&channel=${channel.trimStart().trimEnd()}` : "&channel=none"
       }&tiktok=${
         tiktok === "" ? "false" : tiktok !== "true" ? "false" : "true"
       }&format=${format}`;
