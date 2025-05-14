@@ -32,7 +32,7 @@ module.exports = {
           { name: "Letra", value: "letra" },
           { name: "Phonk", value: "phonk" }
         )
-        .setRequired(true)
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
