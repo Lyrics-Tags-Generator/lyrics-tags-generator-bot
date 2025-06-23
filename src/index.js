@@ -53,6 +53,4 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(
-  "MTMzODU2NzQ4MDgzNDI2NTE5Mw.GNCX4D.jDn7rt1qrxj-N-aEZnmpsl9eNH7KyBW8Ur4j_M"
-);
+client.login(process.env.TOKEN);

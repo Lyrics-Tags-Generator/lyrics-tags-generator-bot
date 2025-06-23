@@ -36,6 +36,19 @@ module.exports = {
     )
     .addStringOption((option) =>
       option
+        .setName("genre")
+        .setDescription("Select the desired genre.")
+        .setChoices(
+          { name: "None", value: "none" },
+          { name: "Country", value: "country" },
+          { name: "Latin", value: "latin" },
+          { name: "Phonk", value: "phonk" },
+          { name: "Pop", value: "pop" },
+          { name: "Rap", value: "rap" }
+        )
+    )
+    .addStringOption((option) =>
+      option
         .setName("title")
         .setDescription("Please remove any commas , if there are any")
         .setRequired(false)
@@ -53,6 +66,13 @@ module.exports = {
     )
     .addStringOption((option) =>
       option
+        .setName("verse")
+        .setDescription(
+          "Popular verse? Paste them in here. Limit is 3, separate them by commas."
+        )
+    )
+    .addStringOption((option) =>
+      option
         .setName("tiktok")
         .setDescription('Is the song popular on TikTok? Type "true" if so.')
     ),
@@ -65,12 +85,14 @@ module.exports = {
       const channel = interaction.options.getString("channel") || "";
       const tiktok = interaction.options.getString("tiktok") || "";
       const format = interaction.options.getString("format") || "";
+      const genre = interaction.options.getString("genre") || "";
+      const verse = interaction.options.getString("verse") || "";
 
       // Check if there are any commas in the title or artist
       if (/,/.test(title)) {
         return interaction.reply({
           content: "Please remove any commas from the artist or title.",
-          ephemeral: true,
+          ephemeral: false,
         });
       }
 
@@ -131,17 +153,42 @@ module.exports = {
         }
       }
 
-      const apiUrl = `https://tags.notnick.io/api/generate${
-        title ? `?title=${title}` : "?title=none"
-      }&artist=${artist}${
-        features
-          ? `&features=${features.trimStart().trimEnd()}`
-          : "&features=none"
-      }${
-        channel ? `&channel=${channel.trimStart().trimEnd()}` : "&channel=none"
-      }&tiktok=${
-        tiktok === "" ? "false" : tiktok !== "true" ? "false" : "true"
-      }&format=${format}`;
+      // Checks if verse contains any numbers or special characters.
+      if (verse.length && !/^[a-zA-Z ,]*$/.test(verse)) {
+        interaction.reply({
+          content: "Please remove any numbers or special characters.",
+          ephemeral: false,
+        });
+        return;
+      }
+
+      // Checks if verse contains a comma, if does then we split the verses and check if there are more than 3 verses.
+      if (verse.length && /,/.test(verse)) {
+        const verseSplit = verse.split(",");
+
+        // If there's more than 3 verses then send back a error response
+        if (verseSplit.length > 3) {
+          interaction.reply({
+            content: "You can only include 3 verses.",
+            ephemeral: false,
+          });
+          return;
+        }
+      }
+
+      const params = new URLSearchParams({
+        title: title || "none",
+        artist: artist,
+        features: features?.trim() || "none",
+        channel: channel?.trim() || "none",
+        tiktok: tiktok === "true" ? "true" : "false",
+        format: format || "lyrics",
+        shuffle: "true",
+        genre: genre || "none",
+        verse: verse?.trim() || "none",
+      });
+
+      const apiUrl = `https://tags.notnick.io/api/generate?${params.toString()}`;
 
       const response = await axios.get(apiUrl, {
         headers: { "Content-Type": "application/json" },

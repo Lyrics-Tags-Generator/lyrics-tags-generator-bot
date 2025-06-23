@@ -1,4 +1,4 @@
-const { clientId, guildId } = require("../../config.json");
+const { clientId } = require("../../config.json");
 const { REST, Routes } = require("discord.js");
 const path = require("node:path");
 const fs = require("node:fs");
