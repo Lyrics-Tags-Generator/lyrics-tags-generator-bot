@@ -88,6 +88,14 @@ module.exports = {
       const genre = interaction.options.getString("genre") || "";
       const verse = interaction.options.getString("verse") || "";
 
+      // Check if the artist field starts with ",-" which means the title wasn't provided.
+      if (/^,-/.test(artist)) {
+        return interaction.reply({
+          content: "Invalid format.",
+          ephemeral: false,
+        });
+      }
+
       // Check if there are any commas in the title or artist
       if (/,/.test(title)) {
         return interaction.reply({
