@@ -210,6 +210,7 @@ module.exports = {
 
       const url = `https://tags.notnick.io/${data.url}`;
       const hashtags = data.hashtags.map((hashtag) => `#${hashtag}`).join(" ");
+      const requestId = data.requestId;
       const tags = data.removedTags;
 
       const embed = new EmbedBuilder()
@@ -219,6 +220,11 @@ module.exports = {
         .addFields(
           { name: "Artist:", value: data.artist, inline: true },
           { name: "Title:", value: data.title, inline: true },
+          {
+            name: "[Identification] Request:",
+            value: `${requestId}`,
+            inline: false,
+          },
           { name: "Tags:", value: tags },
           {
             name: "Hashtags:",
@@ -228,7 +234,7 @@ module.exports = {
           { name: "Length:", value: `${data.removedTagsLength}`, inline: true }
         )
         .setFooter({
-          text: "tags.notnick.io",
+          text: `tags.notnick.io`,
           iconURL: "https://tags.notnick.io/ltg.png",
         })
         .setTimestamp();
