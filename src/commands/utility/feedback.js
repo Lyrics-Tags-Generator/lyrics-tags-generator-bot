@@ -4,7 +4,7 @@ const axios = require("axios");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("feedback")
-    .setDescription("Send feedback to help us improve Lyrics Tags Generator.")
+    .setDescription("Send feedback to help us improve.")
     .addStringOption((option) =>
       option
         .setName("feedback")
@@ -13,7 +13,7 @@ module.exports = {
     ),
   async execute(interaction) {
     const feedback = interaction.options.getString("feedback");
-    const webhookUrl = process.env.DISCORD_WEBHOOK_URL; // Set your webhook URL in env
+    const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
     if (!webhookUrl) {
       return interaction.reply({

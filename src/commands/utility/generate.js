@@ -210,7 +210,10 @@ module.exports = {
 
       const url = `https://tags.notnick.io/${data.url}`;
       const hashtags = data.hashtags.map((hashtag) => `#${hashtag}`).join(" ");
-      const requestId = data.requestId;
+      const featuresResponse = !data.features.length
+        ? "None"
+        : data.features.join(",");
+      const responseId = data.responseId;
       const tags = data.removedTags;
 
       const embed = new EmbedBuilder()
@@ -220,12 +223,20 @@ module.exports = {
         .addFields(
           { name: "Artist:", value: data.artist, inline: true },
           { name: "Title:", value: data.title, inline: true },
+          { name: "Features:", value: featuresResponse, inline: true },
           {
-            name: "[Identification] Request:",
-            value: `${requestId}`,
+            name: "Channel:",
+            value: data.channel === "none" ? "None" : data.channel,
+            inline: true,
+          },
+          { name: "Genre:", value: data.genre, inline: true },
+          { name: "TikTok:", value: data.tiktok, inline: true },
+          { name: "Tags:", value: tags },
+          {
+            name: "[Identification] Response:",
+            value: `${responseId}`,
             inline: false,
           },
-          { name: "Tags:", value: tags },
           {
             name: "Hashtags:",
             value: hashtags,
