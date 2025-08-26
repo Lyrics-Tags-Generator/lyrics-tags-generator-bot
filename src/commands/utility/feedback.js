@@ -8,12 +8,19 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("feedback")
-        .setDescription("Your feedback.")
+        .setDescription("Your feedback...")
         .setRequired(true)
     ),
   async execute(interaction) {
     const feedback = interaction.options.getString("feedback");
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+
+    if (feedback.length > 500) {
+      return interaction.reply({
+        content: "Feedback must be 500 characters or less.",
+        ephemeral: true,
+      });
+    }
 
     if (!webhookUrl) {
       return interaction.reply({
