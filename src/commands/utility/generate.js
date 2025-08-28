@@ -233,11 +233,6 @@ module.exports = {
           { name: "TikTok:", value: data.tiktok, inline: true },
           { name: "Tags:", value: tags },
           {
-            name: "[Identification] Response:",
-            value: `${responseId}`,
-            inline: false,
-          },
-          {
             name: "Hashtags:",
             value: hashtags,
             inline: true,
@@ -258,6 +253,11 @@ module.exports = {
       await interaction.followUp({
         content: "Here is your generated tags file:",
         files: [filePath],
+      });
+
+      await interaction.followUp({
+        content: `Response: **${responseId}**`,
+        ephemeral: true,
       });
 
       fs.unlink(filePath, (err) => {
