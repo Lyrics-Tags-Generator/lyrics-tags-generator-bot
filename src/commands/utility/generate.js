@@ -30,6 +30,7 @@ module.exports = {
           { name: "Nightcore/Sped Up", value: "nightcore" },
           { name: "Slowed/Reverb", value: "slowed" },
           { name: "Letra", value: "letra" },
+          { name: "Testo", value: "testo" },
           { name: "Phonk", value: "phonk" }
         )
         .setRequired(false)
@@ -42,6 +43,7 @@ module.exports = {
           { name: "None", value: "none" },
           { name: "Country", value: "country" },
           { name: "Latin", value: "latin" },
+          { name: "Italian", value: "italian" },
           { name: "Phonk", value: "phonk" },
           { name: "Pop", value: "pop" },
           { name: "Rap", value: "rap" }
