@@ -81,16 +81,15 @@ module.exports = {
 
   async execute(interaction) {
     try {
-      const artist = interaction.options.getString("artist") || "";
-      const title = interaction.options.getString("title") || "";
       const features = interaction.options.getString("features") || "";
       const channel = interaction.options.getString("channel") || "";
+      const artist = interaction.options.getString("artist") || "";
       const tiktok = interaction.options.getString("tiktok") || "";
       const format = interaction.options.getString("format") || "";
+      const title = interaction.options.getString("title") || "";
       const genre = interaction.options.getString("genre") || "";
       const verse = interaction.options.getString("verse") || "";
 
-      // Check if the artist field starts with ",-" which means the title wasn't provided.
       if (/^,-/.test(artist)) {
         return interaction.reply({
           content: "Invalid format.",
@@ -98,7 +97,6 @@ module.exports = {
         });
       }
 
-      // Check if there are any commas in the title or artist
       if (/,/.test(title)) {
         return interaction.reply({
           content: "Please remove any commas from the artist or title.",
@@ -106,7 +104,6 @@ module.exports = {
         });
       }
 
-      // Checks if the artist field reaches the character limit
       if (/[-,]/.test(artist)) {
         if (artist.length > ARTIST_INPUT_FIELD_CHARACTER_LIMIT_FORMATTED) {
           interaction.reply({
@@ -125,7 +122,6 @@ module.exports = {
         }
       }
 
-      // Checks if the title field reaches the character limit
       if (title.length > TITLE_INPUT_FIELD_CHARACTER_LIMIT) {
         interaction.reply({
           content: "Character limit exceeded.",
@@ -134,7 +130,6 @@ module.exports = {
         return;
       }
 
-      // Checks if the features field reaches the character limit
       if (features.length > FEATURES_INPUT_FIELD_CHARACTER_LIMIT) {
         interaction.reply({
           content: "Character limit exceeded.",
@@ -143,7 +138,6 @@ module.exports = {
         return;
       }
 
-      // Checks if the channel name field reaches the character limit
       if (channel.length > CHANNEL_NAME_INPUT_FIELD_CHARACTER_LIMIT) {
         interaction.reply({
           content: "Character limit exceeded.",
@@ -152,7 +146,6 @@ module.exports = {
         return;
       }
 
-      // Checks if the artist and title is not provided in the artist field.
       if (!/-/.test(artist)) {
         if (!title.length) {
           interaction.reply({
@@ -163,7 +156,6 @@ module.exports = {
         }
       }
 
-      // Checks if verse contains any numbers or special characters.
       if (verse.length && !/^[a-zA-Z ,]*$/.test(verse)) {
         interaction.reply({
           content: "Please remove any numbers or special characters.",
@@ -172,30 +164,29 @@ module.exports = {
         return;
       }
 
-      // Checks if verse contains a comma, if does then we split the verses and check if there are more than 3 verses.
       if (verse.length && /,/.test(verse)) {
         const verseSplit = verse.split(",");
 
-        // If there's more than 3 verses then send back a error response
         if (verseSplit.length > 3) {
           interaction.reply({
             content: "You can only include 3 verses.",
             ephemeral: false,
           });
+
           return;
         }
       }
 
       const params = new URLSearchParams({
-        title: title || "none",
-        artist: artist,
+        artist: artist.includes("/") ? artist.split("/")[0] : artist,
+        tiktok: tiktok === "true" ? "true" : "false",
         features: features?.trim() || "none",
         channel: channel?.trim() || "none",
-        tiktok: tiktok === "true" ? "true" : "false",
-        format: format || "lyrics",
-        shuffle: "true",
-        genre: genre || "none",
         verse: verse?.trim() || "none",
+        format: format || "lyrics",
+        title: title || "none",
+        genre: genre || "none",
+        shuffle: "true",
       });
 
       const apiUrl = `https://tags.notnick.io/api/generate?${params.toString()}`;
@@ -210,7 +201,7 @@ module.exports = {
         return interaction.reply({ content: data.error, ephemeral: false });
       }
 
-      const url = `https://tags.notnick.io/${data.url}`;
+      const url = `https://tags.notnick.io${data.url}`;
       const hashtags = data.hashtags.map((hashtag) => `#${hashtag}`).join(" ");
       const featuresResponse = !data.features.length
         ? "None"
@@ -257,10 +248,12 @@ module.exports = {
         files: [filePath],
       });
 
-      await interaction.followUp({
-        content: `Response: **${responseId}**`,
-        ephemeral: true,
-      });
+      if (artist.includes("/r")) {
+        await interaction.followUp({
+          content: `Response: **${responseId}**`,
+          ephemeral: true,
+        });
+      }
 
       fs.unlink(filePath, (err) => {
         if (err) console.error(`Failed to delete file: ${err}`);
