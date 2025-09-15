@@ -189,7 +189,7 @@ module.exports = {
         shuffle: "true",
       });
 
-      const apiUrl = `https://tags.notnick.io/api/generate?${params.toString()}`;
+      const apiUrl = `https://tags.notnick.io/api/v1/generate?${params.toString()}`;
 
       const response = await axios.get(apiUrl, {
         headers: { "Content-Type": "application/json" },
