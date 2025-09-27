@@ -15,7 +15,7 @@ module.exports = {
   async execute(interaction) {
     const tags = interaction.options.getString("tags");
 
-    const apiUrl = `https://tags.notnick.io/api/length?tags=${encodeURIComponent(
+    const apiUrl = `https://tags.notnick.io/api/v1/length?tags=${encodeURIComponent(
       tags
     )}`;
 
