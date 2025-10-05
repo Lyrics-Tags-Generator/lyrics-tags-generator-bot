@@ -48,6 +48,7 @@ module.exports = {
           { name: "Pop", value: "pop" },
           { name: "Rap", value: "rap" }
         )
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
@@ -65,6 +66,7 @@ module.exports = {
       option
         .setName("channel")
         .setDescription("Enter the name of the YouTube Channel.")
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
@@ -74,6 +76,7 @@ module.exports = {
           { name: "Yes", value: "true" },
           { name: "No", value: "false" }
         )
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
@@ -81,11 +84,13 @@ module.exports = {
         .setDescription(
           "Popular verse? Paste them in here. Limit is 3, separate them by commas."
         )
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
         .setName("tiktok")
         .setDescription('Is the song popular on TikTok? Type "true" if so.')
+        .setRequired(false)
     ),
 
   async execute(interaction) {
