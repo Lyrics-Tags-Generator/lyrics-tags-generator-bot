@@ -48,6 +48,7 @@ module.exports = {
           { name: "Pop", value: "pop" },
           { name: "Rap", value: "rap" }
         )
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
@@ -65,6 +66,17 @@ module.exports = {
       option
         .setName("channel")
         .setDescription("Enter the name of the YouTube Channel.")
+        .setRequired(false)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("shuffle")
+        .setDescription("Shuffle generated tags option.")
+        .setChoices(
+          { name: "Yes", value: "true" },
+          { name: "No", value: "false" }
+        )
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
@@ -72,15 +84,18 @@ module.exports = {
         .setDescription(
           "Popular verse? Paste them in here. Limit is 3, separate them by commas."
         )
+        .setRequired(false)
     )
     .addStringOption((option) =>
       option
         .setName("tiktok")
         .setDescription('Is the song popular on TikTok? Type "true" if so.')
+        .setRequired(false)
     ),
 
   async execute(interaction) {
     try {
+      const shuffle = interaction.options.getString("shuffle") || "true";
       const features = interaction.options.getString("features") || "";
       const channel = interaction.options.getString("channel") || "";
       const artist = interaction.options.getString("artist") || "";
@@ -186,7 +201,7 @@ module.exports = {
         format: format || "lyrics",
         title: title || "none",
         genre: genre || "none",
-        shuffle: "true",
+        shuffle: shuffle,
       });
 
       const apiUrl = `https://tags.notnick.io/api/v1/generate?${params.toString()}`;
