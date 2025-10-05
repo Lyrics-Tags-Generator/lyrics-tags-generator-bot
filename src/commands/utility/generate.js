@@ -68,6 +68,15 @@ module.exports = {
     )
     .addStringOption((option) =>
       option
+        .setName("shuffle")
+        .setDescription("Shuffle generated tags option.")
+        .setChoices(
+          { name: "Yes", value: "true" },
+          { name: "No", value: "false" }
+        )
+    )
+    .addStringOption((option) =>
+      option
         .setName("verse")
         .setDescription(
           "Popular verse? Paste them in here. Limit is 3, separate them by commas."
@@ -81,6 +90,7 @@ module.exports = {
 
   async execute(interaction) {
     try {
+      const shuffle = interaction.options.getString("shuffle") || "true";
       const features = interaction.options.getString("features") || "";
       const channel = interaction.options.getString("channel") || "";
       const artist = interaction.options.getString("artist") || "";
@@ -186,7 +196,7 @@ module.exports = {
         format: format || "lyrics",
         title: title || "none",
         genre: genre || "none",
-        shuffle: "true",
+        shuffle: shuffle,
       });
 
       const apiUrl = `https://tags.notnick.io/api/v1/generate?${params.toString()}`;
