@@ -28,7 +28,7 @@ for (const folder of commandFolders) {
   }
 }
 
-const rest = new REST().setToken(process.env.TOKEN);
+const rest = new REST().setToken(process.env.LYRICS_TAGS_GENERATOR_BOT_TOKEN);
 
 (async () => {
   try {

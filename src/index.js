@@ -53,4 +53,4 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(process.env.TOKEN);
+client.login(process.env.LYRICS_TAGS_GENERATOR_BOT_TOKEN);
