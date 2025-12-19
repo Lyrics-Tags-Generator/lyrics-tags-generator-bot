@@ -31,7 +31,8 @@ module.exports = {
           { name: "Slowed/Reverb", value: "slowed" },
           { name: "Letra", value: "letra" },
           { name: "Testo", value: "testo" },
-          { name: "Phonk", value: "phonk" }
+          { name: "Phonk", value: "phonk" },
+          { name: "None", value: "none" }
         )
         .setRequired(false)
     )
@@ -43,6 +44,7 @@ module.exports = {
           { name: "None", value: "none" },
           { name: "Country", value: "country" },
           { name: "Latin", value: "latin" },
+          { name: "Dance", value: "dance" },
           { name: "Italian", value: "italian" },
           { name: "Phonk", value: "phonk" },
           { name: "Pop", value: "pop" },
