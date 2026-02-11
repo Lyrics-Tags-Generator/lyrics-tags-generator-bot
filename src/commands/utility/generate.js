@@ -18,7 +18,7 @@ module.exports = {
       option
         .setName("artist")
         .setDescription("Any special characters are allowed except commas.")
-        .setRequired(true)
+        .setRequired(true),
     )
     .addStringOption((option) =>
       option
@@ -32,9 +32,9 @@ module.exports = {
           { name: "Letra", value: "letra" },
           { name: "Testo", value: "testo" },
           { name: "Phonk", value: "phonk" },
-          { name: "None", value: "none" }
+          { name: "None", value: "none" },
         )
-        .setRequired(false)
+        .setRequired(false),
     )
     .addStringOption((option) =>
       option
@@ -48,27 +48,27 @@ module.exports = {
           { name: "Italian", value: "italian" },
           { name: "Phonk", value: "phonk" },
           { name: "Pop", value: "pop" },
-          { name: "Rap", value: "rap" }
+          { name: "Rap", value: "rap" },
         )
-        .setRequired(false)
+        .setRequired(false),
     )
     .addStringOption((option) =>
       option
         .setName("title")
         .setDescription("Please remove any commas , if there are any")
-        .setRequired(false)
+        .setRequired(false),
     )
     .addStringOption((option) =>
       option
         .setName("features")
         .setDescription("Please use a comma , to separate feature artists.")
-        .setRequired(false)
+        .setRequired(false),
     )
     .addStringOption((option) =>
       option
         .setName("channel")
         .setDescription("Enter the name of the YouTube Channel.")
-        .setRequired(false)
+        .setRequired(false),
     )
     .addStringOption((option) =>
       option
@@ -76,23 +76,27 @@ module.exports = {
         .setDescription("Shuffle generated tags option.")
         .setChoices(
           { name: "Yes", value: "true" },
-          { name: "No", value: "false" }
+          { name: "No", value: "false" },
         )
-        .setRequired(false)
+        .setRequired(false),
     )
     .addStringOption((option) =>
       option
         .setName("verse")
         .setDescription(
-          "Popular verse? Paste them in here. Limit is 3, separate them by commas."
+          "Popular verse? Paste them in here. Limit is 3, separate them by commas.",
         )
-        .setRequired(false)
+        .setRequired(false),
     )
     .addStringOption((option) =>
       option
         .setName("tiktok")
-        .setDescription('Is the song popular on TikTok? Type "true" if so.')
-        .setRequired(false)
+        .setDescription("Is the song popular on TikTok?")
+        .setChoices(
+          { name: "Yes", value: "yes" },
+          { name: "No", value: "no" },
+        )
+        .setRequired(false),
     ),
 
   async execute(interaction) {
@@ -196,7 +200,7 @@ module.exports = {
 
       const params = new URLSearchParams({
         artist: artist.includes("/") ? artist.split("/")[0] : artist,
-        tiktok: tiktok === "true" ? "true" : "false",
+        tiktok: tiktok === "yes" ? "true" : "false",
         features: features?.trim() || "none",
         channel: channel?.trim() || "none",
         verse: verse?.trim() || "none",
@@ -247,7 +251,7 @@ module.exports = {
             value: hashtags,
             inline: true,
           },
-          { name: "Length:", value: `${data.removedTagsLength}`, inline: true }
+          { name: "Length:", value: `${data.removedTagsLength}`, inline: true },
         )
         .setFooter({
           text: `tags.notnick.io`,
