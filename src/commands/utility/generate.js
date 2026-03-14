@@ -92,10 +92,14 @@ module.exports = {
       option
         .setName("tiktok")
         .setDescription("Is the song popular on TikTok?")
-        .setChoices(
-          { name: "Yes", value: "yes" },
-          { name: "No", value: "no" },
-        )
+        .setChoices({ name: "Yes", value: "yes" }, { name: "No", value: "no" })
+        .setRequired(false),
+    )
+    .addStringOption((option) =>
+      option
+        .setName("context")
+        .setDescription("Want to include AI context tags?")
+        .setChoices({ name: "Yes", value: "yes" }, { name: "No", value: "no" })
         .setRequired(false),
     ),
 
@@ -110,6 +114,7 @@ module.exports = {
       const title = interaction.options.getString("title") || "";
       const genre = interaction.options.getString("genre") || "";
       const verse = interaction.options.getString("verse") || "";
+      let context = interaction.options.getString("context") || "";
 
       if (/^,-/.test(artist)) {
         return interaction.reply({
@@ -198,8 +203,13 @@ module.exports = {
         }
       }
 
+      if (artist.includes("/context")) {
+        context = "true";
+      }
+
       const params = new URLSearchParams({
         artist: artist.includes("/") ? artist.split("/")[0] : artist,
+        context: context === "yes" ? "true" : "false",
         tiktok: tiktok === "yes" ? "true" : "false",
         features: features?.trim() || "none",
         channel: channel?.trim() || "none",
