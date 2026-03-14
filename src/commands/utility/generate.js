@@ -111,10 +111,10 @@ module.exports = {
       const artist = interaction.options.getString("artist") || "";
       const tiktok = interaction.options.getString("tiktok") || "";
       const format = interaction.options.getString("format") || "";
+      let context = interaction.options.getString("context") || "";
       const title = interaction.options.getString("title") || "";
       const genre = interaction.options.getString("genre") || "";
       const verse = interaction.options.getString("verse") || "";
-      let context = interaction.options.getString("context") || "";
 
       if (/^,-/.test(artist)) {
         return interaction.reply({
