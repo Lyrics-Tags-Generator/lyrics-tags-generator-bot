@@ -217,6 +217,7 @@ module.exports = {
         format: format || "lyrics",
         title: title || "none",
         genre: genre || "none",
+        source: "bot",
         shuffle: shuffle,
       });
 
