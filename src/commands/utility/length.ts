@@ -1,7 +1,16 @@
-const { SlashCommandBuilder } = require("discord.js");
-const axios = require("axios");
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+} from "discord.js";
+import axios from "axios";
 
-module.exports = {
+interface LengthApiResponse {
+  success: boolean;
+  error?: string;
+  length: number;
+}
+
+export default {
   data: new SlashCommandBuilder()
     .setName("length")
     .setDescription("Counts the length of your tags.")
@@ -12,15 +21,15 @@ module.exports = {
         .setRequired(true)
     ),
 
-  async execute(interaction) {
-    const tags = interaction.options.getString("tags");
+  async execute(interaction: ChatInputCommandInteraction) {
+    const tags = interaction.options.getString("tags", true);
 
     const apiUrl = `https://tags.notnick.io/api/v1/length?tags=${encodeURIComponent(
       tags
     )}`;
 
     try {
-      const response = await axios.get(apiUrl, {
+      const response = await axios.get<LengthApiResponse>(apiUrl, {
         headers: { "Content-Type": "application/json" },
       });
 

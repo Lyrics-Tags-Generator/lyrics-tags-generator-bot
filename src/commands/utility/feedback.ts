@@ -1,7 +1,10 @@
-const { SlashCommandBuilder } = require("discord.js");
-const axios = require("axios");
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+} from "discord.js";
+import axios from "axios";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("feedback")
     .setDescription("Send feedback to help us improve.")
@@ -11,8 +14,8 @@ module.exports = {
         .setDescription("Your feedback...")
         .setRequired(true)
     ),
-  async execute(interaction) {
-    const feedback = interaction.options.getString("feedback");
+  async execute(interaction: ChatInputCommandInteraction) {
+    const feedback = interaction.options.getString("feedback", true);
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
     if (feedback.length > 500) {

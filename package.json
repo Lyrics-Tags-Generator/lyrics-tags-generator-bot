@@ -2,10 +2,13 @@
   "name": "lyrics-tags-generator-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "deploy-commands": "node src/events/deploy-commands.js"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "deploy-commands": "tsx src/events/deploy-commands.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +19,8 @@
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
   }
 }
