@@ -1,16 +1,36 @@
-const {
+import {
   ARTIST_INPUT_FIELD_CHARACTER_LIMIT_FORMATTED,
   CHANNEL_NAME_INPUT_FIELD_CHARACTER_LIMIT,
   FEATURES_INPUT_FIELD_CHARACTER_LIMIT,
   ARTIST_INPUT_FIELD_CHARACTER_LIMIT,
   TITLE_INPUT_FIELD_CHARACTER_LIMIT,
-} = require("../../lib/constants");
-const { interactionError } = require("../../lib/interaction-error");
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const axios = require("axios");
-const fs = require("fs");
+} from "../../lib/constants";
+import { interactionError } from "../../lib/interaction-error";
+import {
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} from "discord.js";
+import axios from "axios";
+import fs from "fs";
 
-module.exports = {
+interface GenerateApiResponse {
+  success: boolean;
+  error?: string;
+  url: string;
+  hashtags: string[];
+  features: string[];
+  responseId: string;
+  removedTags: string;
+  removedTagsLength: number;
+  artist: string;
+  title: string;
+  channel: string;
+  genre: string;
+  tiktok: string;
+}
+
+export default {
   data: new SlashCommandBuilder()
     .setName("generate")
     .setDescription("Generate YouTube tags for your lyric videos.")
@@ -103,7 +123,7 @@ module.exports = {
         .setRequired(false),
     ),
 
-  async execute(interaction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     try {
       const shuffle = interaction.options.getString("shuffle") || "true";
       const features = interaction.options.getString("features") || "";
@@ -223,7 +243,7 @@ module.exports = {
 
       const apiUrl = `https://tags.notnick.io/api/v1/generate?${params.toString()}`;
 
-      const response = await axios.get(apiUrl, {
+      const response = await axios.get<GenerateApiResponse>(apiUrl, {
         headers: { "Content-Type": "application/json" },
       });
 
