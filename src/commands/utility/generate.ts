@@ -69,6 +69,12 @@ export default {
           { name: "Phonk", value: "phonk" },
           { name: "Pop", value: "pop" },
           { name: "Rap", value: "rap" },
+          { name: "Alternative", value: "alternative" },
+          { name: "Emo", value: "emo" },
+          { name: "Rock", value: "rock" },
+          { name: "EDM", value: "edm" },
+          { name: "Trap", value: "trap" },
+          { name: "Electronic", value: "electronic" },
         )
         .setRequired(false),
     )
