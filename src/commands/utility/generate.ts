@@ -292,7 +292,7 @@ export default {
         )
         .setFooter({
           text: `tags.notnick.io`,
-          iconURL: "https://tags.notnick.io/ltg.png",
+          iconURL: "https://tags.notnick.io/assets/logo.png",
         })
         .setTimestamp();
 
